@@ -8,10 +8,27 @@
     .california {
       fill: #00b;
     }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .line {
+      fill: none;
+      stroke: #000;
+    }
   </style>
 </head>
 <body>
-  <svg width=900 height=600></svg>
+  <svg width=900 height=600>
+    <linearGradient id="cardinalGradient" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#900">
+      <stop offset="100%" stop-color="#00b">
+    </linearGradient>
+  </svg>
   <script src="d3.v3.min.js"></script>
   <script src="demo.js"></script>
 </body>
