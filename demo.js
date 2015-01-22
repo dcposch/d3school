@@ -24,27 +24,43 @@ function draw(games){
     .range([height, 0]);
 
   // Axes
+  var touchdowns = [];
+  for(var i = -6; i <= 6; i++) {
+    touchdowns.push(i*7);
+  }
   var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
+      .scale(x)
+      .orient("bottom")
+      .tickFormat(d3.format("d"));
   var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
+      .scale(y)
+      .tickValues(touchdowns)
+      .orient("left");
   chart.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
   chart.append("g")
-    .attr("class", "y axis")
-    .call(yAxis);
+      .attr("class", "y axis")
+      .call(yAxis)
+    .selectAll("line.grid")
+      .data(touchdowns)
+    .enter().append("line")
+      .attr("class", "grid")
+      .attr("x1", 0)
+      .attr("x2", width)
+      .attr("y1", function(d){ return y(d); })
+      .attr("y2", function(d){ return y(d); });
+
 
   // Chart
-  var line = d3.svg.line()
+  var area = d3.svg.area()
     .x(function(d) { return x(d.year); })
-    .y(function(d) { return y(d.stanford - d.california); });
+    .y0(y(0))
+    .y1(function(d) { return y(d.stanford - d.california); });
   chart.append("path")
     .datum(games)
-    .attr("class", "line")
-    .attr("d", line);
+    .attr("class", "area")
+    .attr("d", area);
 }
 
