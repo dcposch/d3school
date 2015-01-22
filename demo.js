@@ -9,13 +9,15 @@ function draw(games) {
   var svg = d3.select("svg");
   console.log(svg);
 
-  var selection = svg.selectAll("rect")
-      .data(games)
-    .enter().append("rect")
-      .attr("class", 
-      .attr("x", function(d){return (d.year - 1892)*10;})
-      .attr("y", function(d){return 400-5*d.stanford;})
-      .attr("width", 8)
-      .attr("height", function(d){return 5*d.stanford;});
+  ["stanford", "california"].forEach(function(side){
+    var selection = svg.selectAll("rect."+side)
+        .data(games)
+      .enter().append("rect")
+        .attr("class", side)
+        .attr("x", function(d){return (d.year - 1892)*10;})
+        .attr("y", function(d){return side==="stanford" ? 400-5*d[side] : 400;})
+        .attr("width", 8)
+        .attr("height", function(d){return 5*d[side];});
+  });
 }
 
